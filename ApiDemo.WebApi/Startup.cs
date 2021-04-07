@@ -44,6 +44,8 @@ namespace ApiDemo.WebApi
                         a => TimeSpan.FromSeconds(Math.Pow(2, a))))
                 .AddTransientHttpErrorPolicy(
                     s => s.CircuitBreakerAsync(5, TimeSpan.FromSeconds(15)));
+
+            services.AddHealthChecks();
         }
 
         private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
@@ -73,6 +75,7 @@ namespace ApiDemo.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
             });
         }
     }
