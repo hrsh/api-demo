@@ -41,7 +41,9 @@ namespace ApiDemo.WebApi
                 // .AddPolicyHandler(GetRetryPolicy())
                 .AddTransientHttpErrorPolicy(
                     s => s.WaitAndRetryAsync(5,
-                        a => TimeSpan.FromSeconds(Math.Pow(2, a))));
+                        a => TimeSpan.FromSeconds(Math.Pow(2, a))))
+                .AddTransientHttpErrorPolicy(
+                    s => s.CircuitBreakerAsync(5, TimeSpan.FromSeconds(15)));
         }
 
         private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
