@@ -45,7 +45,8 @@ namespace ApiDemo.WebApi
                 .AddTransientHttpErrorPolicy(
                     s => s.CircuitBreakerAsync(5, TimeSpan.FromSeconds(15)));
 
-            services.AddHealthChecks();
+            services.AddHealthChecks()
+                .AddCheck<ExternalEndPointHealthCheck>("OpenWeather");
         }
 
         private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
